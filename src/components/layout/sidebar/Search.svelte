@@ -2,8 +2,8 @@
     import { Circle, File, Laptop, Moon, Sun, Search } from "@lucide/svelte"
     import { onMount } from "svelte";
     import { cn } from "$lib/utils.js";
-    import { Button } from "$lib/components/ui/button/index.js";
-    import * as Command from "$lib/components/ui/command/index";
+    import { Button } from "$lib/components/ui/button";
+    import * as Command from "$lib/components/ui/command";
     import toggleMode from "$lib/mode.ts";
 
     let open = $state(false);

@@ -1,7 +1,7 @@
 <script lang="ts">
 
-import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";
+import * as Sidebar from "$lib/components/ui/sidebar";
+import * as Breadcrumb from "$lib/components/ui/breadcrumb";
 
 import ModeToggle from "./ModeToggle.svelte";
 

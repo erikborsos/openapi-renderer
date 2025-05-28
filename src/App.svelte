@@ -1,8 +1,8 @@
 <script lang="ts">
     import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-    import AppSidebar from "./components/Sidebar.svelte";
+    import AppSidebar from "./components/layout/sidebar/Sidebar.svelte";
     import "./app.css"
-    import Header from "./components/Header.svelte";
+    import Header from "./components/layout/header/Header.svelte";
 
 
     let currentPath = $state(window.location.pathname + window.location.search + window.location.hash);

@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+    import * as Sidebar from "$lib/components/ui/sidebar";
     import type { ComponentProps } from "svelte";
     import Search from "./Search.svelte";
     import MenuItem from "./MenuItem.svelte";

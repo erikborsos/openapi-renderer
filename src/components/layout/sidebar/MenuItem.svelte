@@ -1,6 +1,6 @@
 <script lang="ts">
-    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-    import * as Collapsible from "$lib/components/ui/collapsible/index.js";
+    import * as Sidebar from "$lib/components/ui/sidebar";
+    import * as Collapsible from "$lib/components/ui/collapsible";
     import { ChevronsUpDown } from "@lucide/svelte";
     import type { NavItem } from "./Sidebar.svelte";
 

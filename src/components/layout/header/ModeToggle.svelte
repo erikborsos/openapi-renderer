@@ -1,8 +1,8 @@
 <script lang="ts">
     import {Sun, Moon} from "@lucide/svelte";
 
-    import { buttonVariants } from "$lib/components/ui/button/index.js";
-    import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
+    import { buttonVariants } from "$lib/components/ui/button";
+    import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
     import toggleMode from "$lib/mode";
 </script>
 
