@@ -4,7 +4,7 @@
     import { cn } from "$lib/utils.js";
     import { Button } from "$lib/components/ui/button";
     import * as Command from "$lib/components/ui/command";
-    import toggleMode from "$lib/mode.ts";
+    import toggleMode from "$lib/mode.js";
 
     let open = $state(false);
 

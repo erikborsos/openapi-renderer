@@ -15,7 +15,7 @@
 
     let data = {
         navMain: [
-            { title: "API", url: "#", isActive: true },
+            { title: "Overview", url: "#overview", isActive: true },
         ]
     };
 

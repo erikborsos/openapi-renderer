@@ -11,7 +11,7 @@ let pathParts = $derived(path.split("/").filter(part => part.length > 0));
 
 </script>
 
-<header class="flex h-16 shrink-0 items-center gap-2 border-b-2 border-dashed px-4">
+<header class="flex h-16 shrink-0 items-center gap-2 border-b-2 border-dashed px-4 sticky top-0 bg-background/70 backdrop-blur-lg">
     <Sidebar.Trigger class="-ml-1" />
     <div class="h-full border-r-2 border-dashed mr-2"></div>
     <Breadcrumb.Root>
@@ -30,7 +30,7 @@ let pathParts = $derived(path.split("/").filter(part => part.length > 0));
             {/each}
         </Breadcrumb.List>
     </Breadcrumb.Root>
-    <div class="justify-end flex h-full items-center flex-1">
+    <div class="justify-end flex h-full items-center flex-1 z-[100]">
         <div class="h-full border-l-2 border-dashed mr-3"></div>
         <ModeToggle />
     </div>
