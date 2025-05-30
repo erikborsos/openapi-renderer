@@ -1,12 +1,10 @@
 <script lang="ts">
     import { Badge } from '$lib/components/ui/badge';;
     import type { OpenAPIDocument } from '$lib/openapi';
-    import {renderHTML} from "$lib/marked/marked";
     import * as Card from "$lib/components/ui/card";
+    import Markdown from "../../components/markdown/Markdown.svelte";
 
     let { apiDocs }: { apiDocs: OpenAPIDocument } = $props();
-
-    const md = renderHTML(apiDocs.info.description || '');
 
     const contact = apiDocs.info.contact || {};
     const servers = apiDocs.servers || [];
@@ -17,7 +15,7 @@
 <h2 class="text-3xl mb-6 pt-1" id="overview">{apiDocs.info.title}</h2>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
     <div class="markdown max-w-full overflow-x-auto">
-        {@html md}
+        <Markdown content={apiDocs.info.description || ''} />
     </div>
     <div class="flex flex-col gap-5">
         {#if servers.length > 0}

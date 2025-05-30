@@ -3,7 +3,8 @@
     import type { OpenAPIDocument } from '$lib/openapi';
     import { Button } from "$lib/components/ui/button";
     import { ChevronsUpDown } from '@lucide/svelte';
-    import { renderHTML } from "$lib/marked/marked";
+    import CodeBlockRenderer from "../../components/markdown/CodeBlockRenderer.svelte";
+    import { slide } from "svelte/transition";
 
     let { apiDocs }: { apiDocs: OpenAPIDocument } = $props();
 
@@ -187,16 +188,20 @@
                             </Button>
                         </div>
                     </Collapsible.Trigger>
-                    <Collapsible.Content>
-                        <div class="grid grid-cols-2 gap-4 p-4">
-                            <div>
+                    <Collapsible.Content forceMount>
+                        {#snippet child({ props, open })}
+                            {#if open}
+                                <div class="grid grid-cols-2 gap-4 p-4" transition:slide={{duration: 300}} {...props}>
+                                    <div>
 
-                            </div>
-                            <div class="markdown">
-                                <h4>Example</h4>
-                                {@html renderHTML("```json\n" + JSON.stringify(generateExampleJson(schema, schemas), null, 2) + "\n```")}
-                            </div>
-                        </div>
+                                    </div>
+                                    <div class="markdown">
+                                        <CodeBlockRenderer text={JSON.stringify(generateExampleJson(schema, schemas), null, 2)} lang="json" title="Example"/>
+                                    </div>
+                                </div>
+                            {/if}
+                        {/snippet}
+                        <!---->
                     </Collapsible.Content>
                 </Collapsible.Root>
             {/each}
