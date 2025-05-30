@@ -1,0 +1,65 @@
+@import "./highlight.css";
+
+.markdown {
+    h1 {
+        @apply text-3xl font-semibold tracking-tight text-foreground mt-4;
+    }
+    h2 {
+        @apply text-2xl font-medium tracking-tight text-foreground mt-4;
+    }
+    h3 {
+        @apply text-lg font-medium text-foreground mt-4;
+    }
+    p {
+        @apply leading-7 [&:not(:first-child)]:mt-3;
+    }
+    a {
+        @apply text-blue-700 hover:text-blue-700/80 dark:text-blue-500 underline dark:hover:text-blue-500/80 transition-colors;
+    }
+    ul {
+        @apply pl-6 mb-4 list-['-_'];
+    }
+    ol {
+        @apply pl-6 mb-4 list-decimal;
+    }
+    li {
+        @apply mb-1;
+    }
+    code {
+        @apply bg-muted text-foreground rounded px-1 py-0.5 text-sm border-1;
+    }
+    pre code {
+        @apply border-0;
+    }
+    blockquote {
+        @apply mt-6 border-l-2 pl-6 italic;
+    }
+    img {
+        @apply rounded-lg max-w-full h-auto my-4;
+    }
+    table {
+        @apply rounded-lg shadow-sm my-4 border-separate border text-sm;
+        border-spacing: 0;
+        code {
+            @apply text-xs;
+        }
+        th, td {
+            @apply border px-4 py-2 text-left;
+        }
+        th {
+            @apply bg-muted font-medium text-foreground;
+        }
+        tr:first-child th:first-child {
+            @apply rounded-tl-lg;
+        }
+        tr:first-child th:last-child {
+            @apply rounded-tr-lg;
+        }
+        tr:last-child td:first-child {
+            @apply rounded-bl-lg;
+        }
+        tr:last-child td:last-child {
+            @apply rounded-br-lg;
+        }
+    }
+}

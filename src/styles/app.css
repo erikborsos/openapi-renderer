@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./typoghraphy.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -120,95 +121,5 @@
 
   .link {
     @apply text-blue-700 hover:text-blue-700/80 dark:text-blue-500 underline dark:hover:text-blue-500/80 transition-colors;
-  }
-
-  .markdown h1 {
-    @apply text-3xl font-semibold tracking-tight text-foreground mt-4;
-  }
-  .markdown h2 {
-    @apply text-2xl font-medium tracking-tight text-foreground mt-4;
-  }
-  .markdown h3 {
-    @apply text-lg font-medium text-foreground mt-4;
-  }
-  .markdown p {
-    @apply leading-7 [&:not(:first-child)]:mt-3
-  }
-  .markdown a {
-    @apply text-blue-700 hover:text-blue-700/80 dark:text-blue-500 underline dark:hover:text-blue-500/80 transition-colors;
-  }
-  .markdown ul,
-  .markdown ol {
-    @apply pl-6 mb-4 text-muted-foreground;
-  }
-  .markdown li {
-    @apply mb-1;
-  }
-  .markdown code {
-    @apply bg-muted text-foreground rounded px-1 py-0.5 text-sm border-1;
-  }
-  .markdown pre {
-    @apply bg-muted rounded-lg p-4 overflow-x-auto text-sm;
-  }
-
-  .markdown pre code {
-    @apply border-0
-  }
-  .markdown blockquote {
-    @apply mt-6 border-l-2 pl-6 italic;
-  }
-  .markdown img {
-    @apply rounded-lg max-w-full h-auto my-4;
-  }
-
-  .markdown thead {
-    @apply bg-muted text-muted-foreground;
-  }
-
-  .markdown tr {
-    @apply m-0 border-t p-0;
-  }
-
-  .markdown th {
-    @apply border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right
-  }
-
-  .markdown td {
-    @apply border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right;
-  }
-
-  /* Dark mode adjustments */
-  .markdown :global(.hljs) {
-    @apply bg-muted text-foreground;
-  }
-
-  .prose {
-    h1 {
-      @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
-    }
-    h2 {
-      @apply scroll-m-20 border-b py-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0;
-    }
-    h3 {
-      @apply scroll-m-20 text-2xl font-semibold tracking-tight;
-    }
-    h4 {
-      @apply scroll-m-20 text-xl font-semibold tracking-tight;
-    }
-    p {
-      @apply leading-7 [&:not(:first-child)]:mt-6;
-    }
-    blockquote {
-      @apply mt-6 border-l-2 pl-6 italic;
-    }
-    ul {
-      @apply my-6 ml-6 list-disc [&>li]:mt-2;
-    }
-    code {
-      @apply bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
-    }
-    a {
-      @apply text-primary underline-offset-4 underline;
-    }
   }
 }

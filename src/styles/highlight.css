@@ -1,0 +1,71 @@
+.markdown {
+    pre:has(> code.hljs) {
+        @apply text-sm overflow-x-auto bg-card text-card-foreground p-4 flex flex-col rounded-xl border shadow-md;
+    }
+
+    .hljs {
+        @apply text-sm bg-card text-card-foreground;
+    }
+
+    .hljs-comment,
+    .hljs-meta {
+        @apply text-muted-foreground italic;
+    }
+
+    .hljs-keyword,
+    .hljs-operator,
+    .hljs-doctag {
+        @apply text-purple-600 dark:text-purple-400 font-semibold;
+    }
+
+    .hljs-string,
+    .hljs-symbol,
+    .hljs-attr,
+    .hljs-addition {
+        @apply text-green-600 dark:text-green-400;
+    }
+
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable {
+        @apply text-orange-600 dark:text-orange-400;
+    }
+
+    .hljs-title,
+    .hljs-title.function_,
+    .hljs-section,
+    .hljs-built_in {
+        @apply text-blue-600 dark:text-blue-400;
+    }
+
+    .hljs-type,
+    .hljs-class_,
+    .hljs-title.class_ {
+        @apply text-sky-600 dark:text-sky-400;
+    }
+
+    .hljs-tag,
+    .hljs-name,
+    .hljs-selector-tag {
+        @apply text-red-600 dark:text-red-400;
+    }
+
+    .hljs-attribute,
+    .hljs-template-variable,
+    .hljs-params {
+        @apply text-yellow-600 dark:text-yellow-400;
+    }
+
+    .hljs-punctuation,
+    .hljs-subst {
+        @apply text-foreground;
+    }
+
+    .hljs-emphasis {
+        font-style: italic;
+    }
+
+    .hljs-strong {
+        font-weight: bold;
+    }
+}
