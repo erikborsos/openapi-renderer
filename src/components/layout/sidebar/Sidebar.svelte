@@ -15,7 +15,8 @@
 
     let data = {
         navMain: [
-            { title: "Overview", url: "/", isActive: true },
+            { title: "Overview", url: "/overview", isActive: true },
+            { title: "Models", url: "/models" },
         ]
     };
 

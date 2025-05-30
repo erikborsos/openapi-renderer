@@ -1,7 +1,8 @@
 <script lang="ts">
     import { path } from "$lib/stores/path";
     import type { OpenAPIDocument } from "$lib/openapi";
-    import Overview from "./Overview.svelte";
+    import Overview from "./overview/Overview.svelte";
+    import Models from "./models/Models.svelte";
 
     let { apiDocs }: { apiDocs: OpenAPIDocument } = $props();
 
@@ -19,5 +20,5 @@
 {#if $path === "/overview"}
     <Overview {apiDocs} />
 {:else if $path === "/models"}
-    <Overview {apiDocs} />
+    <Models {apiDocs} />
 {/if}

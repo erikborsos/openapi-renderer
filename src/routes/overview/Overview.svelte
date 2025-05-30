@@ -1,29 +1,12 @@
 <script lang="ts">
-    import { Badge } from '$lib/components/ui/badge';
-    import { Marked } from 'marked';
-    import { markedHighlight } from 'marked-highlight';
-    import hljs from 'highlight.js';
-    import DOMPurify from 'dompurify';
-    import * as Card from '$lib/components/ui/card/index.js';
+    import { Badge } from '$lib/components/ui/badge';;
     import type { OpenAPIDocument } from '$lib/openapi';
+    import {renderHTML} from "$lib/marked/marked";
+    import * as Card from "$lib/components/ui/card";
 
     let { apiDocs }: { apiDocs: OpenAPIDocument } = $props();
 
-    const marked = new Marked(
-        markedHighlight({
-            langPrefix: 'hljs language-',
-            emptyLangClass: 'hljs',
-            highlight(code, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                    return hljs.highlight(code, { language: lang }).value;
-                }
-                return hljs.highlight(code, { language: "plaintext" }).value;
-            },
-        })
-    );
-
-    // Parse and sanitize markdown
-    const md = marked.parse(apiDocs.info.description || '') as string;
+    const md = renderHTML(apiDocs.info.description || '');
 
     const contact = apiDocs.info.contact || {};
     const servers = apiDocs.servers || [];
