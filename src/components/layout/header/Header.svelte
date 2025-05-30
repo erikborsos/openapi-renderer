@@ -4,6 +4,7 @@ import * as Sidebar from "$lib/components/ui/sidebar";
 import * as Breadcrumb from "$lib/components/ui/breadcrumb";
 
 import ModeToggle from "./ModeToggle.svelte";
+import {pathPartToTitle} from "$lib/stores/path";
 
 let { path  = $bindable()}: { path: string } = $props();
 
@@ -16,15 +17,15 @@ let pathParts = $derived(path.split("/").filter(part => part.length > 0));
     <div class="h-full border-r-2 border-dashed mr-2"></div>
     <Breadcrumb.Root>
         <Breadcrumb.List>
-            {#each pathParts as part, i (part)}
+            {#each pathParts as part, i}
                 <Breadcrumb.Item>
                     {#if i < pathParts.length - 1}
-                        <Breadcrumb.Link class="hidden md:block" href={`#${pathParts.slice(0, i + 1).join("/")}`}>
-                            {part}
+                        <Breadcrumb.Link class="hidden md:block" href={`/${pathParts.slice(0, i + 1).join("/")}`}>
+                        {pathPartToTitle(part)}
                         </Breadcrumb.Link>
                         <Breadcrumb.Separator class="hidden md:block" />
                     {:else}
-                    <Breadcrumb.Page>{part}</Breadcrumb.Page>
+                    <Breadcrumb.Page>{pathPartToTitle(part)}</Breadcrumb.Page>
                     {/if}
                 </Breadcrumb.Item>
             {/each}
