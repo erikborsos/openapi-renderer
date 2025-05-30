@@ -1,6 +1,6 @@
 <script lang="ts">
     import hljs from 'highlight.js';
-    import * as Card from "$lib/components/ui/card/index.js";
+    import * as Card from "$lib/components/ui/card";
     import {Button} from "$lib/components/ui/button";
     import {Clipboard} from "@lucide/svelte";
 

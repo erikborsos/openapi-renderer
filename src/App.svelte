@@ -1,9 +1,9 @@
 <script lang="ts">
     import * as Sidebar from "$lib/components/ui/sidebar/index.js";
     import { path } from "$lib/stores/path";
-    import AppSidebar from "./components/layout/sidebar/Sidebar.svelte";
+    import AppSidebar from "$lib/components/layout/sidebar/Sidebar.svelte";
     import "./styles/app.css";
-    import Header from "./components/layout/header/Header.svelte";
+    import Header from "$lib/components/layout/header/Header.svelte";
     import Router from "./routes/Router.svelte";
     import type { OpenAPIDocument } from "$lib/openapi";
 

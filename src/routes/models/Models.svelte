@@ -3,7 +3,7 @@
     import type { OpenAPIDocument } from '$lib/openapi';
     import { Button } from "$lib/components/ui/button";
     import { ChevronsUpDown } from '@lucide/svelte';
-    import CodeBlockRenderer from "../../components/markdown/CodeBlockRenderer.svelte";
+    import CodeBlockRenderer from "$lib/components/markdown/CodeBlockRenderer.svelte";
     import { slide } from "svelte/transition";
 
     let { apiDocs }: { apiDocs: OpenAPIDocument } = $props();

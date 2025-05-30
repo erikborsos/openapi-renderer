@@ -2,7 +2,7 @@
     import { Badge } from '$lib/components/ui/badge';;
     import type { OpenAPIDocument } from '$lib/openapi';
     import * as Card from "$lib/components/ui/card";
-    import Markdown from "../../components/markdown/Markdown.svelte";
+    import Markdown from "$lib/components/markdown/Markdown.svelte";
 
     let { apiDocs }: { apiDocs: OpenAPIDocument } = $props();
 
