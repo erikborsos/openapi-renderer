@@ -3,6 +3,7 @@
 	import * as Card from "$lib/components/ui/card"
 	import { Button } from "$lib/components/ui/button"
 	import { Clipboard } from "@lucide/svelte"
+	import { cn } from "$lib/utils"
 
 	export let text: string = ""
 	export let lang: string = "plaintext"
@@ -11,14 +12,14 @@
 	let code = hljs.highlight(text, { language: lang || "plaintext" }).value
 </script>
 
-<Card.Root class="gap-2 p-0">
+<Card.Root class="gap-0 p-0">
 	{#if title}
 		<Card.Header class="bg-muted rounded-t-xl p-6 pb-2">
 			<Card.Title>{title}</Card.Title>
 		</Card.Header>
 	{/if}
 	<Card.Content class="group relative overflow-hidden px-6 pt-4">
-		<pre class={`language- pb-4` + lang}>
+		<pre class={cn("pb-4", "language-" + lang)}>
             <code class="hljs">{@html code}</code>
         </pre>
 		<Button
