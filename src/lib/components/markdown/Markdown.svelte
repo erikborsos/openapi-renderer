@@ -1,11 +1,12 @@
 <script lang="ts">
-    import SvelteMarkdown from "svelte-markdown";
-    import CodeBlockRenderer from "./CodeBlockRenderer.svelte";
-    import LinkRenderer from "./LinkRenderer.svelte";
+	import SvelteMarkdown from "svelte-markdown"
+	import CodeBlockRenderer from "./CodeBlockRenderer.svelte"
+	import LinkRenderer from "./LinkRenderer.svelte"
+	import { cn } from "$lib/utils"
 
-    let { content }: {content: string} = $props();
+	let { content, class: className = "" }: { content: string; class?: string } = $props()
 </script>
 
-<div class="markdown">
-    <SvelteMarkdown source={content} renderers={{code: CodeBlockRenderer, link: LinkRenderer}}/>
+<div class={cn("markdown", className)}>
+	<SvelteMarkdown source={content} renderers={{ code: CodeBlockRenderer, link: LinkRenderer }} />
 </div>

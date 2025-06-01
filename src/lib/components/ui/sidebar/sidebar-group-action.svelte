@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { cn, type WithElementRef } from "$lib/utils.js";
-	import type { Snippet } from "svelte";
-	import type { HTMLButtonAttributes } from "svelte/elements";
+	import { cn, type WithElementRef } from "$lib/utils.js"
+	import type { Snippet } from "svelte"
+	import type { HTMLButtonAttributes } from "svelte/elements"
 
 	let {
 		ref = $bindable(null),
@@ -10,8 +10,8 @@
 		child,
 		...restProps
 	}: WithElementRef<HTMLButtonAttributes> & {
-		child?: Snippet<[{ props: Record<string, unknown> }]>;
-	} = $props();
+		child?: Snippet<[{ props: Record<string, unknown> }]>
+	} = $props()
 
 	const mergedProps = $derived({
 		class: cn(
@@ -23,8 +23,8 @@
 		),
 		"data-slot": "sidebar-group-action",
 		"data-sidebar": "group-action",
-		...restProps,
-	});
+		...restProps
+	})
 </script>
 
 {#if child}
