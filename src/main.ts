@@ -15,7 +15,7 @@ async function init() {
 
 	const data = await res.json()
 
-	setSpec(data)
+	await setSpec(data)
 
 	return mount(App, {
 		target: document.getElementById("app")!

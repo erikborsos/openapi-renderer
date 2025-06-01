@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Link from "$lib/components/Link.svelte"
+
 	export let href: string
 	export let text: string
 
@@ -7,6 +9,14 @@
 		!href.startsWith("#") &&
 		!href.startsWith("mailto:") &&
 		!href.startsWith("tel:")
+
+	let appLink = href.startsWith("/") || href.startsWith("#")
 </script>
 
-<a {href} target={blankTarget ? "_blank" : ""}>{text || href}</a>
+{#if appLink}
+	<Link {href}>
+		{text || href}
+	</Link>
+{:else}
+	<a {href} target={blankTarget ? "_blank" : ""}>{text || href}</a>
+{/if}

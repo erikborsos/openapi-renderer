@@ -12,11 +12,18 @@ import type {
 	SidebarMenu,
 	SidebarGroup
 } from "$lib/components/layout/sidebar/Sidebar.svelte"
+import $RefParser from "@apidevtools/json-schema-ref-parser"
 
 export let spec: OpenAPIObject
 
-export function setSpec(newSpec: OpenAPIObject) {
-	spec = newSpec
+export async function setSpec(newSpec: OpenAPIObject) {
+	const parser = new $RefParser()
+	try {
+		spec = (await parser.dereference(newSpec)) as unknown as OpenAPIObject
+	} catch (error) {
+		console.error("Error dereferencing OpenAPI spec:", error)
+		spec = newSpec
+	}
 }
 
 // === SIDEBAR GENERATION ===
@@ -177,29 +184,6 @@ export function generateSidebarFromOpenAPI(): SidebarNode[] {
 // === SCHEMA EXAMPLE GENERATION ===
 
 type JsonValue = string | number | boolean | null | { [key: string]: JsonValue } | JsonValue[]
-
-function resolveRef(ref: string, visitedRefs: Set<string>): SchemaObject {
-	const refPath = ref.replace("#/components/schemas/", "")
-	const pathParts = refPath.split("/properties/")
-	let schema = spec.components?.schemas?.[pathParts[0]]
-	if (!schema) {
-		console.warn(`Schema not found for ref: ${ref}`)
-		return {}
-	}
-	for (let i = 1; i < pathParts.length; i++) {
-		if ("properties" in schema) {
-			schema = schema.properties?.[pathParts[i]] || {}
-		} else {
-			schema = {}
-		}
-	}
-	/*if (visitedRefs.has(refPath)) {
-		return `[Circular *${refPath}]`
-	}*/
-	visitedRefs.add(refPath)
-	return schema as SchemaObject
-}
-
 function generateStringForPattern(
 	pattern: string,
 	minLength: number = 1,
@@ -230,23 +214,21 @@ function generateStringForPattern(
 		return "example".slice(0, Math.min(maxLength, Math.max(minLength, 7)))
 	}
 }
-export function generateExampleJson(
-	schema: SchemaObject | ReferenceObject,
-	visitedRefs: Set<string> = new Set()
-): JsonValue | null {
+
+export function generateExampleJson(schema: SchemaObject | ReferenceObject): JsonValue {
 	if ("$ref" in schema) {
-		const resolvedSchema = resolveRef(schema.$ref, visitedRefs)
-		return generateExampleJson(resolvedSchema, new Set(visitedRefs))
+		console.warn(`Circular reference marker found: ${schema.$ref}`)
+		return null
 	}
 
 	if ("example" in schema && schema.example !== undefined) {
-		return schema.example as JsonValue // Ensure example is treated as JsonValue
+		return schema.example as JsonValue
 	}
 
 	if (schema.allOf) {
 		const example: JsonValue = {}
-		for (const subSchema of schema.allOf) {
-			const subExample = generateExampleJson(subSchema, new Set(visitedRefs))
+		for (const subSchema of schema.allOf as SchemaObject[]) {
+			const subExample = generateExampleJson(subSchema)
 			if (typeof subExample === "object" && subExample !== null) {
 				Object.assign(example, subExample)
 			} else if (subExample !== null) {
@@ -257,8 +239,8 @@ export function generateExampleJson(
 	}
 
 	if (schema.anyOf) {
-		for (const subSchema of schema.anyOf) {
-			const subExample = generateExampleJson(subSchema, new Set(visitedRefs))
+		for (const subSchema of schema.anyOf as SchemaObject[]) {
+			const subExample = generateExampleJson(subSchema)
 			if (subExample !== null) {
 				return subExample
 			}
@@ -269,13 +251,13 @@ export function generateExampleJson(
 	if (schema.properties) {
 		const example: JsonValue = {}
 		for (const [propName, propSchema] of Object.entries(schema.properties)) {
-			example[propName] = generateExampleJson(propSchema, new Set(visitedRefs))
+			example[propName] = generateExampleJson(propSchema as SchemaObject)
 		}
 		return example
 	}
 
 	if (schema.type === "array" && schema.items) {
-		const itemExample = generateExampleJson(schema.items, new Set(visitedRefs))
+		const itemExample = generateExampleJson(schema.items as SchemaObject)
 		return itemExample !== null ? [itemExample] : []
 	}
 

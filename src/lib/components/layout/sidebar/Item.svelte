@@ -4,6 +4,7 @@
 	import * as Sidebar from "$lib/components/ui/sidebar/"
 
 	import Item from "./Item.svelte"
+	import Link from "$lib/components/Link.svelte"
 
 	let {
 		item,
@@ -21,12 +22,12 @@
 	<Sidebar.MenuItem>
 		<Sidebar.MenuButton class="text-muted-foreground">
 			{#snippet child({ props })}
-				<a href={item.href} {...props}>
+				<Link href={item.href} {...props}>
 					{#if item.icon}
 						<item.icon />
 					{/if}
 					<span>{item.name}</span>
-				</a>
+				</Link>
 			{/snippet}
 		</Sidebar.MenuButton>
 	</Sidebar.MenuItem>
@@ -34,12 +35,12 @@
 	<Sidebar.MenuSubItem>
 		<Sidebar.MenuSubButton class="text-muted-foreground">
 			{#snippet child({ props })}
-				<a href={item.href} {...props}>
+				<Link href={item.href} {...props}>
 					{#if item.icon}
 						<item.icon />
 					{/if}
 					<span>{item.name}</span>
-				</a>
+				</Link>
 			{/snippet}
 		</Sidebar.MenuSubButton>
 	</Sidebar.MenuSubItem>
