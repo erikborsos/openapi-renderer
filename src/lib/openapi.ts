@@ -184,6 +184,17 @@ export function generateSidebarFromOpenAPI(): SidebarNode[] {
 // === SCHEMA EXAMPLE GENERATION ===
 
 type JsonValue = string | number | boolean | null | { [key: string]: JsonValue } | JsonValue[]
+
+function fitString(str: string, min: number = 1, max: number = 50): string {
+	while (str.length < min) {
+		str += "a"
+	}
+	if (str.length > max) {
+		str = str.slice(0, max)
+	}
+	return str
+}
+
 function generateStringForPattern(
 	pattern: string,
 	minLength: number = 1,
@@ -192,26 +203,12 @@ function generateStringForPattern(
 	pattern = pattern.replace(/^\/|\/$/g, "")
 	try {
 		if (pattern === "^[a-z0-9._]+$") {
-			let result = "example"
-			while (result.length < minLength) {
-				result += "a"
-			}
-			if (result.length > maxLength) {
-				result = result.slice(0, maxLength)
-			}
-			return result
+			return fitString("example", minLength, maxLength)
 		}
-		let result = "example"
-		while (result.length < minLength) {
-			result += "a"
-		}
-		if (result.length > maxLength) {
-			result = result.slice(0, maxLength)
-		}
-		return result
+		return fitString("example", minLength, maxLength)
 	} catch (e) {
 		console.warn(`Invalid pattern: ${pattern}, using default string`, e)
-		return "example".slice(0, Math.min(maxLength, Math.max(minLength, 7)))
+		return fitString("example", minLength, maxLength)
 	}
 }
 
@@ -223,6 +220,10 @@ export function generateExampleJson(schema: SchemaObject | ReferenceObject): Jso
 
 	if ("example" in schema && schema.example !== undefined) {
 		return schema.example as JsonValue
+	}
+
+	if ("default" in schema && schema.default !== undefined) {
+		return schema.default as JsonValue
 	}
 
 	if (schema.allOf) {
@@ -238,8 +239,9 @@ export function generateExampleJson(schema: SchemaObject | ReferenceObject): Jso
 		return Object.keys(example).length > 0 ? example : null
 	}
 
-	if (schema.anyOf) {
-		for (const subSchema of schema.anyOf as SchemaObject[]) {
+	if (schema.anyOf || schema.oneOf) {
+		const variants = schema.anyOf ?? schema.oneOf
+		for (const subSchema of variants as SchemaObject[]) {
 			const subExample = generateExampleJson(subSchema)
 			if (subExample !== null) {
 				return subExample
@@ -254,6 +256,16 @@ export function generateExampleJson(schema: SchemaObject | ReferenceObject): Jso
 			example[propName] = generateExampleJson(propSchema as SchemaObject)
 		}
 		return example
+	}
+
+	if (
+		schema.type === "object" &&
+		schema.additionalProperties &&
+		typeof schema.additionalProperties === "object"
+	) {
+		return {
+			key: generateExampleJson(schema.additionalProperties as SchemaObject)
+		}
 	}
 
 	if (schema.type === "array" && schema.items) {
@@ -278,84 +290,41 @@ export function generateExampleJson(schema: SchemaObject | ReferenceObject): Jso
 			return schema.type === "integer" ? Math.floor(value) : value
 		}
 		case "string": {
-			if (schema.format === "date-time") {
-				return "2025-05-30T17:13:00Z"
-			} else if (schema.format === "date") {
-				return "2025-05-30"
-			} else if (schema.format === "time") {
-				return "17:13:00Z"
-			} else if (schema.format === "url") {
-				let url = "https://example.com"
-				const maxLength = typeof schema.maxLength === "number" ? schema.maxLength : url.length
-				const minLength = typeof schema.minLength === "number" ? schema.minLength : 1
-				while (url.length < minLength) {
-					url += "/a"
-				}
-				if (url.length > maxLength) {
-					url = url.slice(0, maxLength)
-				}
-				return url
-			} else if (schema.format === "hostname") {
-				let hostname = "example.com"
-				const maxLength = typeof schema.maxLength === "number" ? schema.maxLength : hostname.length
-				const minLength = typeof schema.minLength === "number" ? schema.minLength : 1
-				while (hostname.length < minLength) {
-					hostname += ".a"
-				}
-				if (hostname.length > maxLength) {
-					hostname = hostname.slice(0, maxLength)
-				}
-				return hostname
-			} else if (schema.format === "email") {
-				let email = "user@example.com"
-				const maxLength = typeof schema.maxLength === "number" ? schema.maxLength : email.length
-				const minLength = typeof schema.minLength === "number" ? schema.minLength : 1
-				while (email.length < minLength) {
-					email = "u" + email
-				}
-				if (email.length > maxLength) {
-					email = email.slice(0, maxLength)
-				}
-				return email
-			} else if (schema.format === "uuid") {
-				return "123e4567-e89b-12d3-a456-426614174000"
-			} else if (schema.format === "ipv4") {
-				return "192.168.1.1"
-			} else if (schema.format === "ipv6") {
-				return "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
-			} else if (schema.format === "binary") {
-				return "binary-data"
-			} else if (schema.format === "byte") {
-				return Buffer.from("example").toString("base64")
-			} else if (schema.format === "password") {
-				let password = "securePass123"
-				const maxLength = typeof schema.maxLength === "number" ? schema.maxLength : password.length
-				const minLength = typeof schema.minLength === "number" ? schema.minLength : 1
-				while (password.length < minLength) {
-					password += "x"
-				}
-				if (password.length > maxLength) {
-					password = password.slice(0, maxLength)
-				}
-				return password
-			}
-			if (schema.pattern) {
-				return generateStringForPattern(
-					schema.pattern,
-					typeof schema.minLength === "number" ? schema.minLength : 1,
-					typeof schema.maxLength === "number" ? schema.maxLength : 50
-				)
-			}
-			let str = "example"
-			const maxLength = typeof schema.maxLength === "number" ? schema.maxLength : str.length
+			const maxLength = typeof schema.maxLength === "number" ? schema.maxLength : 50
 			const minLength = typeof schema.minLength === "number" ? schema.minLength : 1
-			while (str.length < minLength) {
-				str += "a"
+
+			switch (schema.format) {
+				case "date-time":
+					return "2025-05-30T17:13:00Z"
+				case "date":
+					return "2025-05-30"
+				case "time":
+					return "17:13:00Z"
+				case "url":
+					return fitString("https://example.com", minLength, maxLength)
+				case "hostname":
+					return fitString("example.com", minLength, maxLength)
+				case "email":
+					return fitString("user@example.com", minLength, maxLength)
+				case "uuid":
+					return "123e4567-e89b-12d3-a456-426614174000"
+				case "ipv4":
+					return "192.168.1.1"
+				case "ipv6":
+					return "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
+				case "binary":
+					return "binary-data"
+				case "byte":
+					return btoa("example")
+				case "password":
+					return fitString("securePass123", minLength, maxLength)
 			}
-			if (str.length > maxLength) {
-				str = str.slice(0, maxLength)
+
+			if (schema.pattern) {
+				return generateStringForPattern(schema.pattern, minLength, maxLength)
 			}
-			return str
+
+			return fitString("example", minLength, maxLength)
 		}
 		case "boolean":
 			return true
