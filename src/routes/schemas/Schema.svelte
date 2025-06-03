@@ -1,9 +1,10 @@
 <script lang="ts">
 	import CodeBlockRenderer from "$lib/components/markdown/CodeBlockRenderer.svelte"
-	import { generateExampleJson, spec } from "$lib/openapi"
+	import { generateExampleJson } from "$lib/openapi/exapmple"
+	import Schema from "$lib/components/schema/Schema.svelte"
+	import { spec } from "$lib/openapi"
 	import type { SchemaObject } from "openapi3-ts/oas31"
-	import Property from "./Property.svelte"
-
+	import Markdown from "$lib/components/markdown/Markdown.svelte"
 	let { schema: schemaName }: { schema: string } = $props()
 
 	const schema = (spec.components?.schemas?.[schemaName] as SchemaObject) || undefined
@@ -11,11 +12,15 @@
 
 {#if schema}
 	<div class="p-4">
-		<h1 class="mb-4 text-2xl font-bold">{schemaName}</h1>
-
-		<div class="grid grid-cols-2 gap-4">
+		<div class="grid gap-20 lg:grid-cols-2">
 			<div>
-				<Property {schema} />
+				<div class="mb-6">
+					<h2 class="text-3xl font-bold">{schemaName}</h2>
+					{#if schema.description}
+						<Markdown class="text-muted-foreground" content={schema.description} />
+					{/if}
+				</div>
+				<Schema {schema} {schemaName} root />
 			</div>
 			<div class="markdown">
 				<CodeBlockRenderer

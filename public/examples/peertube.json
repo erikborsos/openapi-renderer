@@ -11657,7 +11657,8 @@
 			"id": {
 				"type": "integer",
 				"minimum": 1,
-				"example": 42
+				"example": 42,
+				"required": true
 			},
 			"UUIDv4": {
 				"type": "string",
@@ -14965,7 +14966,8 @@
 					"password": {
 						"$ref": "#/components/schemas/password"
 					}
-				}
+				},
+				"required": ["email", "role"]
 			},
 			"UpdateMe": {
 				"properties": {
