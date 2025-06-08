@@ -20,7 +20,7 @@
 <div class="text-muted-foreground flex flex-col gap-2">
 	{#if root}
 		<div class="flex w-full flex-col gap-4 pt-4">
-			{#each Object.entries(schema.properties ?? {}) as [propertyName, propertySchema], i}
+			{#each Object.entries(schema.properties ?? {}) as [propertyName, propertySchema], i (i)}
 				<Schema schema={propertySchema as SchemaObject} schemaName={propertyName} />
 				{#if i < Object.entries(schema.properties ?? {}).length - 1}
 					<hr class="-ml-3" />
@@ -54,7 +54,7 @@
 							transition:slide={{ duration: 250 }}
 							class="flex w-full flex-col gap-4 border-l-1 pt-4 pl-3"
 						>
-							{#each Object.entries(schema.properties ?? {}) as [propertyName, propertySchema]}
+							{#each Object.entries(schema.properties ?? {}) as [propertyName, propertySchema] (propertyName)}
 								<Schema schema={propertySchema as SchemaObject} schemaName={propertyName} />
 								<hr class="-ml-3" />
 							{/each}
