@@ -3,7 +3,7 @@
 	import Badge from "../ui/badge/badge.svelte"
 	import { formatType, getTypeColor } from "$lib/openapi/schema"
 	import Markdown from "../markdown/Markdown.svelte"
-	import { generateExample } from "$lib/openapi/exapmple"
+	import { generateExample } from "$lib/openapi"
 
 	let {
 		schema,
@@ -65,7 +65,7 @@
 	{#if schema.enum}
 		<div class="flex gap-1">
 			Allowed values:
-			{#each schema.enum as value}
+			{#each schema.enum as value (value)}
 				<Badge variant="secondary" class="mr-1">{value}</Badge>
 			{/each}
 		</div>

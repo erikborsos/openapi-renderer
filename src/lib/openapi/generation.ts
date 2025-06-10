@@ -1,9 +1,3 @@
-import type {
-	OpenAPIObject,
-	PathItemObject,
-	ReferenceObject,
-	SchemaObject
-} from "openapi3-ts/oas31"
 import type { OperationObject } from "openapi3-ts/oas30"
 import { Braces } from "@lucide/svelte"
 import type {
@@ -12,21 +6,8 @@ import type {
 	SidebarMenu,
 	SidebarGroup
 } from "$lib/components/layout/sidebar/Sidebar.svelte"
-import $RefParser from "@apidevtools/json-schema-ref-parser"
-
-export let spec: OpenAPIObject
-
-export async function setSpec(newSpec: OpenAPIObject) {
-	const parser = new $RefParser()
-	try {
-		spec = (await parser.dereference(newSpec)) as unknown as OpenAPIObject
-	} catch (error) {
-		console.error("Error dereferencing OpenAPI spec:", error)
-		spec = newSpec
-	}
-}
-
-// === SIDEBAR GENERATION ===
+import { spec } from "."
+import type { PathItemObject } from "openapi3-ts/oas31"
 
 const httpMethods = ["get", "post", "put", "delete", "patch", "options", "head", "trace"]
 export function generateSidebarFromOpenAPI(): SidebarNode[] {
@@ -55,7 +36,8 @@ export function generateSidebarFromOpenAPI(): SidebarNode[] {
 				const item: SidebarItem = {
 					type: "item",
 					name: operationTyped.summary ?? operationId,
-					href: `/operations/${operationId}`
+					href: `/operations/${operationId}`,
+					method: method.toUpperCase() as string
 				}
 
 				if (
@@ -180,11 +162,3 @@ export function generateSidebarFromOpenAPI(): SidebarNode[] {
 
 	return sidebar
 }
-
-export type JsonValue =
-	| string
-	| number
-	| boolean
-	| null
-	| { [key: string]: JsonValue }
-	| JsonValue[]

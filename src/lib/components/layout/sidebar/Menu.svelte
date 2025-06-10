@@ -27,7 +27,7 @@
 			<Sidebar.MenuItem {...props}>
 				<Collapsible.Trigger>
 					{#snippet child({ props })}
-						<Sidebar.MenuButton {...props} class="text-muted-foreground">
+						<Sidebar.MenuButton {...props} class="font-semibold">
 							<span>{menu.name}</span>
 							<ChevronRight
 								class="ml-auto transition-transform group-data-[state=open]/collapsibleMenu:rotate-90"

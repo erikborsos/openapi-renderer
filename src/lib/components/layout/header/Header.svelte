@@ -12,7 +12,7 @@
 </script>
 
 <header
-	class="bg-background/70 sticky top-0 z-[100] flex h-16 shrink-0 items-center gap-2 border-b-2 border-dashed px-4 backdrop-blur-lg"
+	class="bg-background/70 sticky top-0 z-[99] flex h-16 shrink-0 items-center gap-2 border-b-2 border-dashed px-4 backdrop-blur-lg"
 >
 	<Sidebar.Trigger class="-ml-1" />
 	<div class="mr-2 h-full border-r-2 border-dashed"></div>

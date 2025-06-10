@@ -5,6 +5,7 @@
 		name: string
 		href: string
 		icon?: Component
+		method?: string
 	}
 
 	export type SidebarMenu = {
@@ -29,13 +30,23 @@
 	import Item from "./Item.svelte"
 	import Menu from "./Menu.svelte"
 	import Group from "./Group.svelte"
-	import { generateSidebarFromOpenAPI } from "$lib/openapi"
+	import { generateSidebarFromOpenAPI, spec } from "$lib/openapi"
 
 	let { ref = $bindable(null), ...restProps }: ComponentProps<typeof Sidebar.Root> = $props()
 </script>
 
 <Sidebar.Root collapsible="offcanvas" class="!border-r-2 border-dashed" {...restProps}>
-	<Sidebar.Header class="mb-2 h-16 border-b-2 border-dashed">
+	<Sidebar.Header class="mb-2 border-b-2 border-dashed">
+		{#if spec.info.title}
+			<div class="m-3 flex items-baseline justify-between">
+				<h1 class="text-foreground text-3xl font-semibold">
+					{spec.info.title}
+				</h1>
+				{#if spec.info.version}
+					<span class="text-muted-foreground text-sm">v{spec.info.version}</span>
+				{/if}
+			</div>
+		{/if}
 		<Search />
 	</Sidebar.Header>
 	<Sidebar.Content>

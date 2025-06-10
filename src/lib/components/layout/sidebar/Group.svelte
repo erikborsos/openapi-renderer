@@ -14,7 +14,7 @@
 
 <Collapsible.Root open class="group/collapsible">
 	<Sidebar.Group class="py-0">
-		<Sidebar.GroupLabel class="text-foreground text-sm uppercase">
+		<Sidebar.GroupLabel class="uppercase">
 			{#snippet child({ props })}
 				<Collapsible.Trigger {...props}>
 					{group.name}

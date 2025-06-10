@@ -1,4 +1,4 @@
-import type { OpenAPIObject, SchemaObject } from "openapi3-ts/oas31"
+import type { SchemaObject } from "openapi3-ts/oas31"
 
 export const getTypeColor = (type: string | string[]): string => {
 	if (Array.isArray(type)) {

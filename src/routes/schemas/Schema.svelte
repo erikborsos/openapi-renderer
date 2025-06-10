@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CodeBlockRenderer from "$lib/components/markdown/CodeBlockRenderer.svelte"
-	import { generateExampleJson } from "$lib/openapi/exapmple"
+	import { generateExampleJson } from "$lib/openapi"
 	import Schema from "$lib/components/schema/Schema.svelte"
 	import { spec } from "$lib/openapi"
 	import type { SchemaObject } from "openapi3-ts/oas31"

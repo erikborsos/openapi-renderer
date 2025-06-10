@@ -1,5 +1,6 @@
-import type { JsonValue } from "$lib/openapi"
 import type { ReferenceObject, SchemaObject } from "openapi3-ts/oas31"
+
+type JsonValue = string | number | boolean | null | { [key: string]: JsonValue } | JsonValue[]
 
 function fitString(str: string, min: number = 1, max: number = 50): string {
 	while (str.length < min) {
