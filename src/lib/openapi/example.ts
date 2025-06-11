@@ -94,6 +94,10 @@ export function generateExample(schema: SchemaObject): JsonValue {
 		return schema.example as JsonValue
 	}
 
+	if (("examples" in schema && schema.examples?.length) ?? 0 > 0) {
+		return schema.examples![0] as JsonValue
+	}
+
 	if ("default" in schema && schema.default !== undefined) {
 		return schema.default as JsonValue
 	}

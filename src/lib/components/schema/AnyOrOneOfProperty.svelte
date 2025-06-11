@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { SchemaObject } from "openapi3-ts/oas31"
 	import Schema from "./Schema.svelte"
-	import * as Select from "../ui/select"
 	import { formatType } from "$lib/openapi/schema"
 	import Badge from "../ui/badge/badge.svelte"
 	import { getTypeColor } from "$lib/openapi/schema"
+	import * as ToggleGroup from "../ui/toggle-group"
 
 	let {
 		schema,
@@ -40,19 +40,27 @@
 
 	{#if schemas && schemaCount > 0}
 		<div class="flex flex-col gap-2">
+			<div class="text-muted-foreground text-sm">
+				{#if schema.anyOf}
+					Any of:
+				{:else if schema.oneOf}
+					One of:
+				{/if}
+			</div>
 			{#if schemaCount > 1}
-				<Select.Root type="single" bind:value={selectedIndex}>
-					<Select.Trigger class="w-[200px]">
-						{schemaLabels[+selectedIndex]}
-					</Select.Trigger>
-					<Select.Content>
-						{#each schemaLabels as label, i (i)}
-							<Select.Item value={i + ""} {label}>{label}</Select.Item>
-						{/each}
-					</Select.Content>
-				</Select.Root>
+				<ToggleGroup.Root size="sm" type="single" bind:value={selectedIndex}>
+					{#each schemaLabels as label, i (i)}
+						<ToggleGroup.Item
+							value={i + ""}
+							aria-label={label}
+							class="max-w-full flex-1 truncate px-2 py-1 text-center text-sm"
+						>
+							<span class="block truncate">{label}</span>
+						</ToggleGroup.Item>
+					{/each}
+				</ToggleGroup.Root>
 			{/if}
-			<div class="border-l-1 pl-3">
+			<div class="pl-3">
 				{#key selectedIndex}
 					<Schema schema={schemas[+selectedIndex]} {schemaName} {root} />
 				{/key}

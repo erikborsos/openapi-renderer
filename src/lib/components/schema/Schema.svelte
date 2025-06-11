@@ -20,10 +20,8 @@
 	<AllOfProperty {schema} {schemaName} {root} />
 {:else if "oneOf" in schema || "anyOf" in schema}
 	<AnyOrOneOfProperty {schema} {schemaName} {root} />
-{:else if "properties" in schema}
+{:else if "properties" in schema || "additionalProperties" in schema}
 	<ObjectProperty {schema} {schemaName} {root} />
 {:else if "items" in schema}
 	<ArrayProperty {schema} {schemaName} {root} />
-{:else}
-	<div>Complex</div>
 {/if}

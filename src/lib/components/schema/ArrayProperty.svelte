@@ -35,7 +35,7 @@
 	{:else}
 		<Collapsible.Root bind:open>
 			<div class="flex items-center gap-2">
-				<Collapsible.Trigger class={buttonVariants({ variant: "ghost", size: "icon" })}>
+				<Collapsible.Trigger class={buttonVariants({ variant: "ghost" }) + " !h-6 !w-6"}>
 					<ChevronRight class={`transition-transform ${open ? "rotate-90" : ""}`} />
 					<span class="sr-only">Toggle</span>
 				</Collapsible.Trigger>
@@ -54,13 +54,8 @@
 			<Collapsible.Content forceMount>
 				{#snippet child({ props, open })}
 					{#if open && schema.items}
-						<div
-							{...props}
-							transition:slide={{ duration: 250 }}
-							class="flex w-full flex-col gap-4 border-l-1 pt-4 pl-3"
-						>
+						<div {...props} transition:slide={{ duration: 250 }}>
 							<Schema schema={schema.items as SchemaObject} root />
-							<hr class="-ml-3" />
 						</div>
 					{/if}
 				{/snippet}
